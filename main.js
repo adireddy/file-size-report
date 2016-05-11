@@ -7,12 +7,12 @@ var filesizereport = require('./report')
 var optimist = require('optimist')
     .options('output', {
         alias: 'o'
-        , 'default': 'output/report.json'
+        , 'default': './report.json'
         , describe: 'Output JSON file name.'
     })
     .options('path', {
         alias: 'p'
-        , 'default': 'output'
+        , 'default': './'
         , describe: 'Folder path.'
     })
 
