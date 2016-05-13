@@ -1,5 +1,6 @@
+var fs = require("fs");
+
 module.exports = function(opts) {
-    var fs = require("fs");
     var _folder = opts.path;
     var _reportJsonFile = opts.output;
 

@@ -1,8 +1,9 @@
-var fs = require('fs')
-var _ = require('underscore')._
-var winston = require('winston')
+#!/usr/bin/env node
 
-var filesizereport = require('./report')
+var _ = require('underscore')._;
+var winston = require('winston');
+
+var filesizereport = require('./report');
 
 var optimist = require('optimist')
     .options('output', {
@@ -14,24 +15,24 @@ var optimist = require('optimist')
         alias: 'p'
         , 'default': './'
         , describe: 'Folder path.'
-    })
+    });
 
-var argv = optimist.argv
-var opts = _.extend({}, argv)
+var argv = optimist.argv;
+var opts = _.extend({}, argv);
 
-winston.remove(winston.transports.Console)
+winston.remove(winston.transports.Console);
 winston.add(winston.transports.Console, {
     colorize: true
     , level: argv.log
     , handleExceptions: false
-})
-winston.debug('Parsed arguments', argv)
+});
+winston.debug('Parsed arguments', argv);
 
-opts.logger = winston
+opts.logger = winston;
 
 filesizereport(opts, function(err, obj) {
     if (err) {
-        winston.error(err)
-        process.exit(0)
+        winston.error(err);
+        process.exit(0);
     }
-})
+});
