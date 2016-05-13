@@ -1,7 +1,7 @@
 {
     "name": "file-size-report",
-    "version": "1.0.0",
-    "description": "A simple file size report generator in JSON format.",
+    "version": "0.0.1",
+    "description": "A simple node utility to generate file size report in JSON format.",
     "main": "./report.js",
     "keywords": [
 	"files",
@@ -9,6 +9,9 @@
 	"report"
     ],
     "dependencies": {
+	"grunt": "latest",
+	"grunt-cli": "latest",
+	"grunt-exec": "latest",
 	"optimist": "~0.6.1",
 	"underscore": "~1.8.3",
 	"winston": "~1.0.0"

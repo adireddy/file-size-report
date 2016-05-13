@@ -19,9 +19,6 @@ module.exports = function(opts) {
     var _counter = 0;
     var _totalFiles = 0;
 
-    console.log(_folder);
-    console.log(_reportJsonFile);
-
     _getRecursiveFileCount(_folder);
 
     function _getRecursiveFileCount(folder) {
