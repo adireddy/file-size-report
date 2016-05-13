@@ -1,8 +1,11 @@
 {
     "name": "file-size-report",
-    "version": "0.0.1",
+    "version": "0.0.4",
     "description": "A simple node utility to generate file size report in JSON format.",
     "main": "./report.js",
+    "bin": {
+	"file-size-report": "./main.js"
+    },
     "keywords": [
 	"files",
 	"filesize",
@@ -19,6 +22,13 @@
     "repository": {
 	"type": "git",
 	"url": "https://github.com/adireddy/file-size-report.git"
+    },
+    "bugs": {
+	"url": "https://github.com/adireddy/file-size-report/issues"
+    },
+    "author": {
+	"name": "Adi Reddy Mora",
+	"email": "adiinteractive@gmail.com"
     },
     "license": "MIT"
 }
