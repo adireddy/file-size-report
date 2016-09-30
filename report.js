@@ -30,6 +30,7 @@ module.exports = function(opts) {
                 else {
                     _totalFiles++;
                     var name = folder + "/" + files[i];
+
                     var dimensions = {"width": 0, "height": 0, "type": 'unknown'};
                     name = name.substring(_folder.length + 1, name.length);
                     _data[name] = {};
@@ -40,6 +41,7 @@ module.exports = function(opts) {
                     }
                     else {
                         _counter++;
+                        if (_counter == _totalFiles) _writeReport();
                     }
                 }
             }
