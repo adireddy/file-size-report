@@ -1,8 +1,9 @@
 var fs = require("fs");
 
 module.exports = function(opts) {
-    var _folder = opts.path;
-    var _reportJsonFile = opts.output;
+    var folder = opts.path;
+    var reportJsonFile = opts.output;
+    var ignoreList = [".DS_Store"];
 
     var handlers = {};
     var typeMap = {};
@@ -15,67 +16,68 @@ module.exports = function(opts) {
     });
     var MaxBufferSize = 128 * 1024;
 
-    var _data = {};
-    var _counter = 0;
-    var _totalFiles = 0;
+    var data = {};
+    var counter = 0;
+    var totalFiles = 0;
 
-    _getRecursiveFileCount(_folder);
+    getRecursiveFileCount(folder);
 
-    function _getRecursiveFileCount(folder) {
+    function getRecursiveFileCount(folder) {
         try {
             var files = fs.readdirSync(folder);
             for (var i = 0; i < files.length; i++) {
                 var stats = fs.statSync(folder + "/" + files[i]);
-                if (stats.isDirectory()) _getRecursiveFileCount(folder + "/" + files[i]);
+                if (stats.isDirectory()) getRecursiveFileCount(folder + "/" + files[i]);
                 else {
-                    _totalFiles++;
+                    if (ignoreList.indexOf(files[i]) > -1) continue;
+                    totalFiles++;
                     var name = folder + "/" + files[i];
 
                     var dimensions = {"width": 0, "height": 0, "type": 'unknown'};
-                    name = name.substring(_folder.length + 1, name.length);
-                    _data[name] = {};
-                    _data[name]["size"] = stats.size;
+                    name = name.substring(folder.length + 1, name.length);
+                    data[name] = {};
+                    data[name]["size"] = stats.size;
 
                     if (types.indexOf(files[i].substring(files[i].lastIndexOf(".") + 1, files[i].length)) > -1) {
-                        _getFileDimensions(folder + "/" + files[i], _data[name]);
+                        getFileDimensions(folder + "/" + files[i], data[name]);
                     }
                     else {
-                        _counter++;
-                        if (_counter == _totalFiles) _writeReport();
+                        counter++;
+                        if (counter == totalFiles) writeReport();
                     }
                 }
             }
         }
         catch (e) {
-            console.log("can't read directory - " + _folder);
+            console.log("can't read directory - " + folder);
         }
     }
 
-    function _writeReport() {
+    function writeReport() {
         try {
-            fs.writeFileSync(_reportJsonFile, JSON.stringify(_data));
+            fs.writeFileSync(reportJsonFile, JSON.stringify(data));
         }
         catch (e) {
-            console.log("can't write JSON file - " + _reportJsonFile);
+            console.log("can't write JSON file - " + reportJsonFile);
         }
     }
 
-    function _getFileDimensions(path, data) {
-        _asyncFileToBuffer(path, function (err, buffer) {
+    function getFileDimensions(path, data) {
+        asyncFileToBuffer(path, function (err, buffer) {
             var dimensions;
             try {
-                dimensions = _lookup(buffer, path);
+                dimensions = lookup(buffer, path);
             }
             catch (e) {
                 err = e;
             }
-            _counter++;
+            counter++;
             data["stats"] = dimensions;
-            if (_counter == _totalFiles) _writeReport();
+            if (counter == totalFiles) writeReport();
         });
     }
 
-    function _asyncFileToBuffer(filepath, callback) {
+    function asyncFileToBuffer(filepath, callback) {
         try {
             fs.open(filepath, "r", function (err, descriptor) {
                 if (err) {
@@ -100,8 +102,8 @@ module.exports = function(opts) {
         catch (e) {}
     }
 
-    function _lookup(buffer, filepath) {
-        var type = _detector(buffer, filepath);
+    function lookup(buffer, filepath) {
+        var type = detector(buffer, filepath);
         if (type in handlers) {
             var size = handlers[type].calculate(buffer, filepath);
             if (size !== false) {
@@ -112,7 +114,7 @@ module.exports = function(opts) {
         throw new TypeError("unsupported file type");
     }
 
-    function _detector(buffer, filepath) {
+    function detector(buffer, filepath) {
         var type, result;
         for (type in typeMap) {
             result = typeMap[type](buffer, filepath);
