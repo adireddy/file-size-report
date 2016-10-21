@@ -12,10 +12,11 @@ A simple node utility to generate file size report in JSON format.
 
 `file-size-report  -p test -o test/report.json`
 
-| Option | Description      |
-| ------ | ---------------- |
-| -p     | folder path      |
-| -o     | JSON report path |
+| Option        | Description      |
+| ------------- | ---------------- |
+| -p            | folder path      |
+| -o            | JSON report path |
+|--nb           | Doesn't prepend base path to each asset id |
 
 Any issues please [report](https://github.com/adireddy/file-size-report/issues/new).
 
