@@ -16,9 +16,6 @@ var optimist = require('optimist')
         , 'default': './'
         , describe: 'Folder path.'
     })
-    .options("noBasePath", {
-        alias: "nb", describe: "doesn't prepend base path to each asset id"
-    })
     .options("help", {
         alias: "h", describe: "help"
     });

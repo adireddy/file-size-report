@@ -1,7 +1,6 @@
 var fs = require("fs");
 
 module.exports = function(opts) {
-    var folder = opts.path;
     var reportJsonFile = opts.output;
     var ignoreList = [".DS_Store"];
 
@@ -20,7 +19,7 @@ module.exports = function(opts) {
     var counter = 0;
     var totalFiles = 0;
 
-    getRecursiveFileCount(folder);
+    getRecursiveFileCount(opts.path);
 
     function getRecursiveFileCount(folder) {
         try {
@@ -34,7 +33,7 @@ module.exports = function(opts) {
                     var name = folder + "/" + files[i];
                     name = name.replace(".//", "");
                     var dimensions = {"width": 0, "height": 0, "type": 'unknown'};
-                    if (opts.noBasePath)  name = name.substring(folder.length + 1, name.length);
+                    name = name.substring(opts.path.length + 1, name.length);
                     data[name] = {};
                     data[name]["size"] = stats.size;
 
