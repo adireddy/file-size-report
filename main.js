@@ -15,6 +15,12 @@ var optimist = require('optimist')
         alias: 'p'
         , 'default': './'
         , describe: 'Folder path.'
+    })
+    .options("noBasePath", {
+        alias: "nb", describe: "doesn't prepend base path to each asset id"
+    })
+    .options("help", {
+        alias: "h", describe: "help"
     });
 
 var argv = optimist.argv;
@@ -30,9 +36,16 @@ winston.debug('Parsed arguments', argv);
 
 opts.logger = winston;
 
+if (argv.help) {
+    winston.info("Usage: file-size-report -p test -o test/report.json");
+    winston.info(optimist.help());
+    process.exit(1);
+}
+
 filesizereport(opts, function(err, obj) {
     if (err) {
         winston.error(err);
         process.exit(0);
     }
+    winston.info("done");
 });

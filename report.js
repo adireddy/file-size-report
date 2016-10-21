@@ -32,9 +32,9 @@ module.exports = function(opts) {
                     if (ignoreList.indexOf(files[i]) > -1) continue;
                     totalFiles++;
                     var name = folder + "/" + files[i];
-
+                    name = name.replace(".//", "");
                     var dimensions = {"width": 0, "height": 0, "type": 'unknown'};
-                    name = name.substring(folder.length + 1, name.length);
+                    if (opts.noBasePath)  name = name.substring(folder.length + 1, name.length);
                     data[name] = {};
                     data[name]["size"] = stats.size;
 
@@ -43,7 +43,7 @@ module.exports = function(opts) {
                     }
                     else {
                         counter++;
-                        if (counter == totalFiles) writeReport();
+                        if (counter === totalFiles) writeReport();
                     }
                 }
             }

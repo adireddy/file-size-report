@@ -1,6 +1,6 @@
 {
     "name": "file-size-report",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "A simple node utility to generate file size report in JSON format.",
     "main": "./report.js",
     "bin": {
